@@ -1,0 +1,7 @@
+__pycache__/
+.vscode/
+*.bmp
+*.sqlite3
+*.html
+alien_invasion/
+learning_log/
