@@ -1,8 +1,13 @@
+# settings
 __pycache__/
 .vscode/
+# not python
 *.bmp
 *.sqlite3
 *.html
 alien_invasion/
+# bad file
 learning_log/
 lib_installer/
+# visual data
+*.svg
