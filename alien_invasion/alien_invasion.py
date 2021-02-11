@@ -3,6 +3,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 import game_functions as gf
+from pygame.sprite import Group
 
 
 def run_game():
@@ -16,14 +17,19 @@ def run_game():
 
     # 创建飞船
     ship = Ship(screen, sets=ai_settings)
-
+    # 创建存储子弹的编组
+    bullets = Group()
     # 游戏主循环
     while True:
 
         # 监听键盘鼠标事件
-        gf.check_events(ship)
+        gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
-        gf.update_screen(ai_settings, screen, ship)
+        bullets.update()
+        for bullet in bullets.copy():
+            if bullet.rect.bottom <= 0:
+                bullets.remove(bullet)
+        gf.update_screen(ai_settings, screen, ship, bullets)
 
 
 run_game()
