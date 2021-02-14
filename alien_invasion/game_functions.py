@@ -12,6 +12,8 @@ def check_down(event, sets, scr, ship, bullets):
     elif event.key == pygame.K_SPACE:
         new_bullet = Bullet(sets, scr, ship)
         bullets.add(new_bullet)
+    elif event.key == pygame.K_q:
+        sys.exit()
 
 
 def check_up(event, ship):
