@@ -72,3 +72,28 @@ def create_fleet(sets, scr, ship, aliens):
     for row_num in range(num_rows):
         for alien_number in range(number_aliens_x):
             create_alien(sets, scr, aliens, alien_number, row_num)
+
+
+def check_fleet_edges(sets, aliens):
+    for alien in aliens.sprites():
+        if alien.check_edge():
+            change_fleet_direction(sets, aliens)
+            break
+
+
+def change_fleet_direction(sets, aliens):
+    for alien in aliens.sprites():
+        alien.rect.y += sets.fleet_drop_speed
+    sets.fleet_direction *= -1
+
+
+def update_aliens(sets, aliens):
+    check_fleet_edges(sets, aliens)
+    aliens.update()
+
+
+def update_bullets(sets, scr, ship, aliens, bullets):
+    pygame.sprite.groupcollide(bullets, aliens, True, True)
+    if len(aliens) == 0:
+        bullets.empty()
+        create_fleet(sets, scr, ship, aliens)
