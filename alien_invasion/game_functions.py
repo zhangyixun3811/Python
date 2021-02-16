@@ -2,6 +2,7 @@ import sys
 
 import pygame
 from bullet import Bullet
+from alien import Alien
 
 
 def check_down(event, sets, scr, ship, bullets):
@@ -33,9 +34,41 @@ def check_events(sets, scr, ship, bullets):
             check_up(event, ship)
 
 
-def update_screen(sets, scr, ship, bullets):
+def update_screen(sets, scr, ship, bullets, aliens):
     scr.fill(sets.bg_color)
     for bullet in bullets.sprites():
         bullet.draw_bullet()
     ship.blitme()
+    aliens.draw(scr)
     pygame.display.flip()
+
+
+def get_num_aliens_x(sets, alien_width):
+    vaild_space_x = sets.screen_width - 2 * alien_width
+    number_aliens_x = int(vaild_space_x / (2 * alien_width))
+    return number_aliens_x
+
+
+def get_num_rows(sets, ship_height, alien_height):
+    vaild_space_y = (sets.screen_height - (3 * alien_height) - ship_height)
+    num_rows = int(vaild_space_y / (2 * alien_height))
+    return num_rows
+
+
+def create_alien(sets, scr, aliens, num, rows):
+    alien = Alien(sets, scr)
+    alien_width = alien.rect.width
+    alien.x = alien_width + 2 * alien_width * num
+    alien.rect.x = alien.x
+    alien.rect.y = alien.rect.height + 2 * alien.rect.height * rows
+    aliens.add(alien)
+
+
+def create_fleet(sets, scr, ship, aliens):
+    alien = Alien(sets, scr)
+    number_aliens_x = get_num_aliens_x(sets, alien.rect.width)
+    num_rows = get_num_rows(sets, ship.rect.height, alien.rect.height)
+
+    for row_num in range(num_rows):
+        for alien_number in range(number_aliens_x):
+            create_alien(sets, scr, aliens, alien_number, row_num)
